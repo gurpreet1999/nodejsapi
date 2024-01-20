@@ -1,12 +1,17 @@
-const express=require('express')
-const certificaterouter = require('./routes/certificate')
-const app=express()
+// app.js
 
+const express = require('express');
+const app = express();
 
+// Import route handlers
 
+const PartnerRoutes=require("./routes/Partner/index.js")
+// Use the route handlers
+app.use('/partner', PartnerRoutes);
+app.use('/flyingspot', FlyingspotRoutes);
 
-app.use("/v1",certificaterouter)
-
-app.listen(8000,()=>{
-    console.log("server is running")
-})
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

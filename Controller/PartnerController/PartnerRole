@@ -1,0 +1,50 @@
+const addPartnerRole = async (req, res) => {
+    try {
+        const { user_id, role_id, role_name } = req.body;
+
+       
+        const connection = await mysql.createConnection(dbConfig);
+
+        // Insert the partner role into the database
+        await connection.execute(
+            'INSERT INTO PartnerRole (user_id, role_id, role_name) VALUES (?, ?, ?)',
+            [user_id, role_id, role_name]
+        );
+
+        // Close the database connection
+        connection.end();
+
+        res.json({ message: 'Partner role added successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
+const updatePartnerRole = async (req, res) => {
+    try {
+        const { user_id, new_role_id, new_role_name } = req.body;
+
+        // Create a connection to the database
+        const connection = await mysql.createConnection(dbConfig);
+
+        // Update the role_id and role_name for the specified user_id
+        await connection.execute(
+            'UPDATE PartnerRole SET role_id = ?, role_name = ? WHERE user_id = ?',
+            [new_role_id, new_role_name, user_id]
+        );
+
+        // Close the database connection
+        connection.end();
+
+        res.json({ message: 'Partner role updated successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
+
+module.exports={addPartnerRole,updatePartnerRole}
